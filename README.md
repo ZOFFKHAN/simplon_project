@@ -32,3 +32,6 @@ Le serveur web renvoie donc un fichier ne contenant plus de PHP, donc seulement 
 
 ![image](https://user-images.githubusercontent.com/75574677/115833433-58243080-a414-11eb-9478-205d56faecd0.png)
 
+![image](https://user-images.githubusercontent.com/75574677/115833697-a20d1680-a414-11eb-9a36-fc6109ea2b3c.png)
+
+
