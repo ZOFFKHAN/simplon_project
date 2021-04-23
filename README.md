@@ -40,5 +40,12 @@ Le serveur web renvoie donc un fichier ne contenant plus de PHP, donc seulement 
 ![image](https://user-images.githubusercontent.com/75574677/115835779-f4e7cd80-a416-11eb-837f-6dca2ed23a45.png)
 
 
+==>Postman
+
+-collection ? contains multiple requests
+
+
+
+
 
 
