@@ -30,8 +30,6 @@ the previous url explain the flowchart for a php query
 
 Le serveur web renvoie donc un fichier ne contenant plus de PHP, donc seulement du HTML au navigateur qui l'interprète et l'affiche.
 
-![image](https://user-images.githubusercontent.com/75574677/115833433-58243080-a414-11eb-9478-205d56faecd0.png)
-
-![image](https://user-images.githubusercontent.com/75574677/115833697-a20d1680-a414-11eb-9a36-fc6109ea2b3c.png)
+![image](https://user-images.githubusercontent.com/75574677/115834182-37a8a600-a415-11eb-8cbb-78ab6d44120f.png)
 
 
