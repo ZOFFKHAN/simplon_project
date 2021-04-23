@@ -32,4 +32,9 @@ Le serveur web renvoie donc un fichier ne contenant plus de PHP, donc seulement 
 
 ![image](https://user-images.githubusercontent.com/75574677/115834182-37a8a600-a415-11eb-8cbb-78ab6d44120f.png)
 
+![image](https://user-images.githubusercontent.com/75574677/115835730-e5688480-a416-11eb-8d02-7a0cf840c3c6.png)
+![image](https://user-images.githubusercontent.com/75574677/115835779-f4e7cd80-a416-11eb-837f-6dca2ed23a45.png)
+
+
+
 
