@@ -29,3 +29,6 @@ the previous url explain the flowchart for a php query
  (pour les afficher par exemple). PHP continue de parser la page, puis retourne le fichier dépourvu du code PHP au serveur web ;
 
 Le serveur web renvoie donc un fichier ne contenant plus de PHP, donc seulement du HTML au navigateur qui l'interprète et l'affiche.
+
+![image](https://user-images.githubusercontent.com/75574677/115833433-58243080-a414-11eb-9478-205d56faecd0.png)
+
