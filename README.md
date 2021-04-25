@@ -44,6 +44,8 @@ Le serveur web renvoie donc un fichier ne contenant plus de PHP, donc seulement 
 
 -collection ? contains multiple requests
 
+![image](https://user-images.githubusercontent.com/75574677/116012252-c988fc80-a629-11eb-9070-66bc07000ded.png)
+
 
 
 
