@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="ISO-8859-1">
+<title>Room reservation</title>
+</head>
+<body>
+<div align="center">	
+<h3 th:inline="text">Welcome [[${#httpServletRequest.remoteUser}]]</h3>
+	<form th:action="@{/logout}" method="post">
+		<input type="submit" value="Logout" />
+	</form>
+
+	<h1>Room reservation</h1>
+	<a href="users">List_users</a>
+	
+	<br/><br/>
+	<table border="1" cellpadding="10">
+		<thead>
+			<tr>
+				<th>Room ID</th>
+				<th>Room Type</th>
+				<th>Room description</th>
+				<th>Room capacity</th>
+				
+				
+				<th sec:authorize="hasRole('ADMIN')">Actions</th>				
+				
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="account : ${users}">
+				<td th:text="${account.id}"> ID</td>
+				<td th:text="${account.enabled}">TYPE</td>
+				<td th:text="${account.password}">description</td>
+				<td th:text="${account.role}">description</td>
+				<td th:text="${account.user_name}">description</td>
+				<td sec:authorize="hasRole('ADMIN')">
+					<a th:href="@{'/users/' + ${account.id}}">Edit</a>
+					&nbsp;&nbsp;&nbsp;&nbsp;
+					<a th:href="@{'/delete/' + ${account.id}}">Delete</a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+</body>
+</html>
