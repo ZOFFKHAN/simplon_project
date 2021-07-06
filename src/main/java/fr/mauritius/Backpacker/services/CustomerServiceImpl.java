@@ -4,6 +4,9 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import fr.mauritius.Backpacker.domain.dtos.CustomerCreate;
@@ -56,14 +59,31 @@ public class CustomerServiceImpl implements CustomerService {
     public void create(CustomerCreate dto) {
 	System.out.println("call in service");
 	Customer customer = new Customer();
-	customer.setEmail(dto.getEmail());
+	// customer.setEmail(dto.getEmail());
 	customer.setFirstname(dto.getFirstname());
 	customer.setLastname(dto.getLastname());
 
-	Long mainAccountId = dto.getMainAccountId();
+//	Long mainAccountId = dto.getMainAccountId();
+//
+//	Account account = accountRepo.getOne(mainAccountId);
+//	customer.setMainAccount(account);
 
-	Account account = accountRepo.getOne(mainAccountId);
-	customer.setMainAccount(account);
+	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+	if (!(authentication instanceof AnonymousAuthenticationToken)) {
+	    String currentUserName = authentication.getName();
+	    System.out.println("current user " + currentUserName);
+	    customer.setEmail(currentUserName);
+
+	    Long mainAccountId = accountRepo.findByUsername(currentUserName).getId();
+
+	    Account account = accountRepo.getOne(mainAccountId);
+	    customer.setMainAccount(account);
+
+//	    Long mainCustomerId = customers.findByEmail(currentUserName).getId();
+//	    Customer customer = customerRepo.getOne(mainCustomerId);
+//	    ckbooking.setMainCustomer(customer);
+
+	}
 
 	customers.save(customer);
 

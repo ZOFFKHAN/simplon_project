@@ -5,8 +5,8 @@ import java.time.LocalDate;
 public class CkbookingView {
     private Long id;
     private String ckid;
-    private LocalDate DateBegin;
-    private LocalDate DateEnd;
+    private LocalDate dateBegin;
+    private LocalDate dateEnd;
 
     private Long mainCustomerId;
     // private Long roomId;
@@ -35,19 +35,19 @@ public class CkbookingView {
     }
 
     public LocalDate getDateBegin() {
-	return DateBegin;
+	return dateBegin;
     }
 
     public void setDateBegin(LocalDate dateBegin) {
-	DateBegin = dateBegin;
+	this.dateBegin = dateBegin;
     }
 
     public LocalDate getDateEnd() {
-	return DateEnd;
+	return dateEnd;
     }
 
     public void setDateEnd(LocalDate dateEnd) {
-	DateEnd = dateEnd;
+	this.dateEnd = dateEnd;
     }
 
     public Long getMainCustomerId() {
@@ -84,7 +84,7 @@ public class CkbookingView {
 
     @Override
     public String toString() {
-	return "CkbookingView [id=" + id + ", ckid=" + ckid + ", DateBegin=" + DateBegin + ", DateEnd=" + DateEnd
+	return "CkbookingView [id=" + id + ", ckid=" + ckid + ", dateBegin=" + dateBegin + ", dateEnd=" + dateEnd
 		+ ", mainCustomerId=" + mainCustomerId + ", mainRoomId=" + mainRoomId + ", usermail=" + usermail
 		+ ", isloaded=" + isloaded + "]";
     }

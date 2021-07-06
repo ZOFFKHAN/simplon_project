@@ -23,6 +23,7 @@ import fr.mauritius.Backpacker.services.CkbookingService;
 @RestController
 @RequestMapping("/ckbookings")
 @Secured({ "ROLE_ADMIN", "ROLE_BASIC" })
+
 public class CkbookingController {
     private final CkbookingService service;
 
@@ -44,6 +45,7 @@ public class CkbookingController {
     @PostMapping
 
     public void create(@RequestBody @Valid CkbookingCreate dto) {
+	// public void create(@RequestBody CkbookingCreate dto) {
 	service.create(dto);
 	System.out.println(dto);
     }
@@ -56,29 +58,21 @@ public class CkbookingController {
 
     }
 
-//    @GetMapping("/fetch1/{one_date}/{two_date}/{roomId}")
-//    public List<Ckbooking> getAllBetweenDates1(
-//	    @PathVariable(value = "one_date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
-//	    @PathVariable(value = "two_date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate,
-//	    @PathVariable(value = "roomId") Long roomId) {
-//
-//	return service.getAllBetweenDates1(startDate, endDate, roomId);
-//
-//    }
+    @GetMapping("/fetch1/{one_date}/{two_date}/{roomId}")
+    public List<Ckbooking> getAllBetweenDates1(
+	    @PathVariable(value = "one_date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
+	    @PathVariable(value = "two_date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate,
+	    @PathVariable(value = "roomId") Long roomId) {
 
-//  @GetMapping("/fetch1/{one_date}/{two_date}/{roomId}")
-//  public List<Ckbooking> getAllBetweenDates1(
-//	    @PathVariable(value = "one_date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
-//	    @PathVariable(value = "two_date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate,
-//	    @PathVariable(value = "roomId") Long roomId) {
-//
-//	return service.getAllBetweenDates1(startDate, endDate, roomId);
-//
-//  }
+	return service.getAllBetweenDates1(startDate, endDate, roomId);
+
+    }
+
+    @Secured({ "ROLE_ADMIN" })
 
     @DeleteMapping("/{id}")
-    public void Ckbooking(@PathVariable("id") Long id) {
-	service.Ckbooking(id);
+    public void deleteCkbooking(@PathVariable("id") Long id) {
+	service.deleteCkbooking(id);
 
     }
 

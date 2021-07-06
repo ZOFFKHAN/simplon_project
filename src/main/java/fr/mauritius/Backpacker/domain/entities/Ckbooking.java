@@ -12,18 +12,20 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "ck_booking")
+@Table(name = "check_bookings")
 
 public class Ckbooking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
-    @Column(name = "ck_id", nullable = false)
+    @Column(name = "ck_id")
     private Long id;
     private String ckid;
 
-    private LocalDate DateBegin;
-    private LocalDate DateEnd;
+    @Column(name = "date_begin")
+    private LocalDate dateBegin;
+    @Column(name = "date_end")
+    private LocalDate dateEnd;
     private boolean isloaded;
 
     public boolean isIsloaded() {
@@ -35,17 +37,19 @@ public class Ckbooking {
     }
 
     @ManyToOne
-    @JoinColumn(name = "customer_id", nullable = false)
+    // @JoinColumn(name = "customer_id", nullable = false)
+    @JoinColumn(name = "customer_id")
     private Customer mainCustomer;
 
     @ManyToOne
     @JoinColumn(name = "room_id", nullable = false)
     private Room mainRoom;
 
-//    @Column(name = "room_id", nullable = false)
-//    private Long roomId;
+    private Long roomid;
 
-    public Ckbooking() {
+    public void addRoom(Room room) {
+	mainRoom = room;
+	roomid = mainRoom.getId();
 
     }
 
@@ -66,19 +70,19 @@ public class Ckbooking {
     }
 
     public LocalDate getDateBegin() {
-	return DateBegin;
+	return dateBegin;
     }
 
     public void setDateBegin(LocalDate dateBegin) {
-	DateBegin = dateBegin;
+	this.dateBegin = dateBegin;
     }
 
     public LocalDate getDateEnd() {
-	return DateEnd;
+	return dateEnd;
     }
 
     public void setDateEnd(LocalDate dateEnd) {
-	DateEnd = dateEnd;
+	this.dateEnd = dateEnd;
     }
 
     public Customer getMainCustomer() {
@@ -97,10 +101,19 @@ public class Ckbooking {
 	this.mainRoom = mainRoom;
     }
 
+    public Long getRoomid() {
+	return roomid;
+    }
+
+    public void setRoomid(Long roomid) {
+	this.roomid = roomid;
+    }
+
     @Override
     public String toString() {
-	return "Ckbooking [id=" + id + ", ckid=" + ckid + ", DateBegin=" + DateBegin + ", DateEnd=" + DateEnd
-		+ ", isloaded=" + isloaded + ", mainCustomer=" + mainCustomer + ", mainRoom=" + mainRoom + "]";
+	return "Ckbooking [id=" + id + ", ckid=" + ckid + ", dateBegin=" + dateBegin + ", dateEnd=" + dateEnd
+		+ ", isloaded=" + isloaded + ", mainCustomer=" + mainCustomer + ", mainRoom=" + mainRoom + ", roomid="
+		+ roomid + "]";
     }
 
 }

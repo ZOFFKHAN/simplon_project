@@ -33,7 +33,7 @@ public class TokenProvider {
 	this.expiration = expiration;
     }
 
-    public IdToken idToken(String subject, List<String> authorities) {
+    public IdToken idToken(Long accountId, String subject, List<String> authorities) {
 
 	LocalDateTime now = LocalDateTime.now(zoneId);
 	Date issuedAt = toJavaUtilDate(now);
@@ -55,6 +55,7 @@ public class TokenProvider {
 		.withExpiresAt(expiresAt)// expiration
 		.withSubject(subject)// pour qui
 		//.withClaim("roles", authorities)
+		.withClaim("accountId", accountId)
 		.withClaim("authorities", authorities) // pas obligatoire
 		.sign(algorithm);
 	// @formatter:on

@@ -2,24 +2,24 @@ package fr.mauritius.Backpacker.domain.dtos;
 
 public class CkbookingPatchR {
 
-    private Long roomId;
+    // private Long roomId;
 
-    // private Long mainRoomId;
+    private Long mainRoomId;
 
     public CkbookingPatchR() {
     }
 
-    public Long getRoomId() {
-	return roomId;
+    public Long getMainRoomId() {
+	return mainRoomId;
     }
 
-    public void setRoomId(Long roomId) {
-	this.roomId = roomId;
+    public void setMainRoomId(Long mainRoomId) {
+	this.mainRoomId = mainRoomId;
     }
 
     @Override
     public String toString() {
-	return "CkbookingPatchR [roomId=" + roomId + "]";
+	return "CkbookingPatchR [mainRoomId=" + mainRoomId + "]";
     }
 
 }

@@ -17,12 +17,15 @@ public interface CkbookingService {
 
     CkbookingView getById(Long id);
 
-    void Ckbooking(Long id);
+    // void Ckbooking(Long id);
 
 //    void updateRoomid(Long id, CkbookingPatchR newRoom);
 
-    // List<Ckbooking> getAllBetweenDates1(LocalDate startDate, LocalDate endDate,
-    // Long roomId);
+    List<Ckbooking> getAllBetweenDates1(LocalDate startDate, LocalDate endDate, Long roomId);
+
+    List<Ckbooking> overlappingRecords(LocalDate startDate, LocalDate endDate, Long roomId);
+
+    void deleteCkbooking(Long id);
 
 //    List<Ckbooking> getAllBetweenDates2(LocalDate startDate, LocalDate endDate, Long room_id);
 

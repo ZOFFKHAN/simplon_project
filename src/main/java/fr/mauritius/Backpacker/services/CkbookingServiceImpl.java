@@ -3,6 +3,9 @@ package fr.mauritius.Backpacker.services;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import fr.mauritius.Backpacker.domain.dtos.CkbookingCreate;
@@ -13,6 +16,7 @@ import fr.mauritius.Backpacker.domain.entities.Room;
 import fr.mauritius.Backpacker.repositories.CkbookingRepository;
 import fr.mauritius.Backpacker.repositories.CustomerRepository;
 import fr.mauritius.Backpacker.repositories.RoomRepository;
+import fr.mauritius.Backpacker.security.OverlappingException;
 
 @Service
 public class CkbookingServiceImpl implements CkbookingService {
@@ -69,24 +73,41 @@ public class CkbookingServiceImpl implements CkbookingService {
 
     @Override
     public void create(CkbookingCreate dto) {
-	System.out.println("call in service");
 	Ckbooking ckbooking = new Ckbooking();
-	ckbooking.setCkid(dto.getCkid());
 
+	int nombreAleatoire = 1000 + (int) (Math.random() * ((9999 - 1000) + 1));
+	String testid = "BK" + nombreAleatoire;
+	if (ckbookings.existsByckid(testid)) {
+	    testid = "BK" + "_" + nombreAleatoire;
+	}
+
+	ckbooking.setCkid(testid);
 	ckbooking.setDateBegin(dto.getDateBegin());
 	ckbooking.setDateEnd(dto.getDateEnd());
-	// ckbooking.setRoomId(dto.getRoomId());
 	ckbooking.setIsloaded(false);
-
 	Long mainRoomId = dto.getMainRoomId();
 	Room room = roomRepo.getOne(mainRoomId);
-	ckbooking.setMainRoom(room);
+	ckbooking.addRoom(room);
 
-	Long mainCustomerId = dto.getMainCustomerId();
-	Customer customer = customerRepo.getOne(mainCustomerId);
-	ckbooking.setMainCustomer(customer);
+	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+	if (!(authentication instanceof AnonymousAuthenticationToken)) {
+	    String currentUserName = authentication.getName();
+	    Long mainCustomerId = customerRepo.findByEmail(currentUserName).getId();
+	    Customer customer = customerRepo.getOne(mainCustomerId);
+	    ckbooking.setMainCustomer(customer);
+	}
 
-	ckbookings.save(ckbooking);
+	if (ckbookings.overlappingRecords(dto.getDateEnd(), dto.getDateBegin(), dto.getMainRoomId()).isEmpty()) {
+	    System.out.println("no overlapping");
+	    System.out.println(overlappingRecords(dto.getDateEnd(), dto.getDateBegin(), dto.getMainRoomId()));
+
+	    ckbookings.save(ckbooking);
+	} else {
+	    System.out.println("already exists");
+	    System.out.println(overlappingRecords(dto.getDateEnd(), dto.getDateBegin(), dto.getMainRoomId()));
+
+	    throw new OverlappingException("overlapping");
+	}
 
     }
 
@@ -98,9 +119,9 @@ public class CkbookingServiceImpl implements CkbookingService {
     }
 
     @Override
-    public void Ckbooking(Long id) {
+    public void deleteCkbooking(Long id) {
 
-	ckbookings.deleteByid(id);
+	ckbookings.deleteById(id);
 
     }
 
@@ -113,14 +134,21 @@ public class CkbookingServiceImpl implements CkbookingService {
 //	ckbookings.save(ckbooking);
 //    }
 
-//    @Override
-//    public List<Ckbooking> getAllBetweenDates1(LocalDate startDate, LocalDate endDate, Long roomId) {
-//	// TODO Auto-generated method stub
-//
-//	// Over lap exists
-//
-//	return ckbookings.getAllBetweenDates1(startDate, endDate, roomId);
-//    }
+    public List<Ckbooking> getAllBetweenDates1(LocalDate startDate, LocalDate endDate, Long roomId) {
+	// TODO Auto-generated method stub
+
+	// Over lap exists
+
+	return ckbookings.getAllBetweenDates1(startDate, endDate, roomId);
+    }
+
+    public List<Ckbooking> overlappingRecords(LocalDate startDate, LocalDate endDate, Long roomId) {
+	// TODO Auto-generated method stub
+
+	// Over lap exists
+
+	return ckbookings.overlappingRecords(startDate, endDate, roomId);
+    }
 
 //    @Override
 //    public List<Ckbooking> getAllBetweenDates2(LocalDate startDate, LocalDate endDate, Long room_id) {

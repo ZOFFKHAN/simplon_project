@@ -1,6 +1,6 @@
 package fr.mauritius.Backpacker.domain.dtos;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 
 public class CustomerCreate {
 
@@ -8,7 +8,7 @@ public class CustomerCreate {
     private String firstname;
     private String email;
 
-    @NotNull
+    @Null
     private Long mainAccountId;
 
     public CustomerCreate() {

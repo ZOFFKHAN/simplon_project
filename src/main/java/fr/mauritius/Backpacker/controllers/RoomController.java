@@ -14,7 +14,7 @@ import fr.mauritius.Backpacker.services.RoomService;
 
 @RestController
 @RequestMapping("/rooms")
-@Secured({ "ROLE_ADMIN" })
+@Secured({ "ROLE_ADMIN", "ROLE_BASIC" })
 public class RoomController {
     private final RoomService service;
 

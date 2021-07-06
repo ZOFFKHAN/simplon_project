@@ -36,6 +36,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 @Configuration
 //annotation de sécurity, pour les endpoints
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
+
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Value("${my-app.jwt.provider.time-zone-id}")
@@ -67,22 +68,30 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	http.csrf().disable().httpBasic().disable().sessionManagement()
 		.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+
+		// je ne veux pas de session
 		// Apply business requirements:
 		.and().authorizeRequests()
 		// Authorize any user to access these endpoints:
 		.antMatchers(HttpMethod.POST, "/accounts", "/accounts/login").permitAll()
-		// .antMatchers(HttpMethod.GET, "/ckbookings/*").hasAnyRole("BASIC", "ADMIN")
-
 		// Authorize anonymous only to access this endpoint:
+		// .antMatchers(HttpMethod.GET, "/tests/**").anonymous()
 		.antMatchers(HttpMethod.GET, "/tests/anonymous-only").anonymous() // Not authenticated
 		// Unauthorize any other endpoint (request):
 //ROLE_ADMIN ,ROLE_BASIC
 		// ci dessous configure serveur de ressourses
+		// .antMatchers(HttpMethod.GET, "/tests/Auth_user").hasAnyRole("BASIC", "ADMIN",
+		// "MANAGER")
+		.antMatchers(HttpMethod.GET, "/tests/manager-admin").hasAnyRole("MANAGER", "ADMIN")
+		.antMatchers(HttpMethod.GET, "/tests/basic-admin").hasAnyRole("BASIC", "ADMIN")
 		.antMatchers(HttpMethod.GET, "/tests/manager-only").hasRole("MANAGER")
 		.antMatchers(HttpMethod.GET, "/tests/basic-only").hasRole("BASIC")// Not authenticated
-		.antMatchers(HttpMethod.GET, "/tests/admin-only").hasRole("ADMIN")// Not authenticated
+		// .antMatchers(HttpMethod.GET, "/tests/admin-only").hasRole("ADMIN")// Not
+		// authenticated
+		// .antMatchers(HttpMethod.GET, "/admin/**").hasRole("ADMIN")// Not
+		// authenticated
 
-		.anyRequest().fullyAuthenticated()
+		.antMatchers(HttpMethod.GET, "/tests/Auth_user").fullyAuthenticated().anyRequest().fullyAuthenticated()
 		// Resource server ci dessous
 		.and().oauth2ResourceServer().jwt().jwtAuthenticationConverter(jwtConverter());
     }
@@ -116,6 +125,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	// classe anonyme ici Converter
 	// pas besoin d'implémenter l'interface
 	// visible que dans la classe elle même
+	// permet de récuperer les roles,...
 	return new Converter<>() {
 
 	    @Override
@@ -126,6 +136,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return new JwtAuthenticationToken(jwt, authorities, name);
 	    }
 
+	    // ressource server
 	    private Collection<GrantedAuthority> extractAuthorities(Jwt jwt) {
 		// pas d'arraylist ici contre hashset (éléments uniques)
 		Collection<GrantedAuthority> authorities = new HashSet<>();

@@ -12,20 +12,39 @@ import fr.mauritius.Backpacker.domain.entities.Ckbooking;
 
 public interface CkbookingRepository extends JpaRepository<Ckbooking, Long> {
 
+    Object overlappingRecords = null;
+
     Optional<Ckbooking> getById(Long id);
 
-    @Query(value = "from Ckbooking c where (c.DateBegin between :startDate and :endDate OR c.DateEnd between :startDate and :endDate)")
+    @Query(value = "from Ckbooking c where  (c.dateBegin between :startDate and :endDate OR  :startDate between dateBegin and dateEnd )")
     List<Ckbooking> getAllBetweenDates(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
     // TODO Auto-generated method stub
 
-    void deleteByid(Long id);
+    // void deleteById(Long id);
 
-//    @Query(value = "from Ckbooking c where c.roomId = :roomId AND (c.DateBegin between :startDate and :endDate OR  :startDate between Date_Begin and DateEnd )")
-//    List<Ckbooking> getAllBetweenDates1(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate,
+    boolean existsByckid(String value);
+
+    @Query(value = "from Ckbooking c where roomid = :roomId AND ((c.dateBegin<= :endDate AND dateEnd >= :startDate)\r\n"
+	    + "  OR (c.dateBegin>= :endDate AND c.dateBegin<= :startDate AND dateEnd <= :startDate)\r\n"
+	    + "  OR (dateEnd <= :startDate AND dateEnd >= :endDate AND c.dateBegin <= :endDate)\r\n"
+	    + "  OR (c.dateBegin>= :endDate AND c.dateBegin<= :startDate))")
+    List<Ckbooking> overlappingRecords(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate,
+	    @Param("roomId") Long roomId);
+
+//    @Query(value = "from Ckbooking c where roomid = :roomId AND (c.dateBegin between :startDate and :endDate OR  :startDate between dateBegin and dateEnd )")
+//    List<Ckbooking> overlappingRecords(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate,
 //	    @Param("roomId") Long roomId);
 
-//    @Query("from Ckbooking o where o.roomId = ?3 and (o.DateBegin between ?1 and ?2) "
-//	    + "or (o.DateEnd between ?1 and ?2)")
+    @Query(value = "from Ckbooking c where roomid = :roomId AND (c.dateBegin between :startDate and :endDate OR  :startDate between dateBegin and dateEnd )")
+    List<Ckbooking> getAllBetweenDates1(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate,
+	    @Param("roomId") Long roomId);
+
+//    @Query(value = "from Ckbooking c where c.roomId = :roomId AND (c.dateBegin between :startDate and :endDate OR  :startDate between Date_Begin and dateEnd )")
+//    List<Ckbooking> getAllBetweenDates1(@Param("startstaDate") LocalDate startDate, @Param("endDate") LocalDate endDate,
+//	    @Param("roomId") Long roomId);
+
+//    @Query("from Ckbooking o where o.roomId = ?3 and (o.dateBegin between ?1 and ?2) "
+//	    + "or (o.dateEnd between ?1 and ?2)")
 //    List<Ckbooking> getAllBetweenDates2(LocalDate startDate, LocalDate endDate, Long roomId);
 
 }

@@ -3,7 +3,6 @@ package fr.mauritius.Backpacker.domain.dtos;
 import java.time.LocalDate;
 
 import javax.validation.constraints.Future;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import fr.mauritius.Backpacker.validation.DateDiffDesc;
@@ -11,15 +10,14 @@ import fr.mauritius.Backpacker.validation.DateDiffDesc;
 @DateDiffDesc
 public class CkbookingCreate {
     private Long id;
-    @NotEmpty(message = "ckid is required")
+
     private String ckid;
     @Future(message = "date can't be before today !")
-    private LocalDate DateBegin;
+    private LocalDate dateBegin;
     @Future(message = "date can't be before today !")
-    private LocalDate DateEnd;
-    @NotNull
+    private LocalDate dateEnd;
     private Long mainCustomerId;
-    @NotNull
+    @NotNull(message = "Roomid should be provided !")
     private Long mainRoomId;
 
     // private Long roomId;
@@ -46,19 +44,19 @@ public class CkbookingCreate {
     }
 
     public LocalDate getDateBegin() {
-	return DateBegin;
+	return dateBegin;
     }
 
     public void setDateBegin(LocalDate dateBegin) {
-	DateBegin = dateBegin;
+	this.dateBegin = dateBegin;
     }
 
     public LocalDate getDateEnd() {
-	return DateEnd;
+	return dateEnd;
     }
 
     public void setDateEnd(LocalDate dateEnd) {
-	DateEnd = dateEnd;
+	this.dateEnd = dateEnd;
     }
 
     public Long getMainCustomerId() {
@@ -87,7 +85,7 @@ public class CkbookingCreate {
 
     @Override
     public String toString() {
-	return "CkbookingCreate [id=" + id + ", ckid=" + ckid + ", DateBegin=" + DateBegin + ", DateEnd=" + DateEnd
+	return "CkbookingCreate [id=" + id + ", ckid=" + ckid + ", dateBegin=" + dateBegin + ", dateEnd=" + dateEnd
 		+ ", mainCustomerId=" + mainCustomerId + ", mainRoomId=" + mainRoomId + ", isloaded=" + isloaded + "]";
     }
 

@@ -103,7 +103,7 @@ public class AccountServiceImpl implements AccountService {
 	// Create a list with the account role's code:
 	List<String> authorities = List.of(entity.getRole().getCode());
 	// Return an ID token (oauth 2) with the subject and authorities:
-	return provider.idToken(username, authorities);
+	return provider.idToken(entity.getId(), username, authorities);
 
     }
 
